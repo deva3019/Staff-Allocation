@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <title>Login | StaffSync</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { primary: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }, darkBg: '#0f172a', darkCard: '#1e293b' } } }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        .modal-enter { opacity: 0; transform: translateY(20px); transition: all 0.3s ease; }
+        .modal-enter-active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-darkBg dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+    <div class="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.05]" style="background-image: radial-gradient(#4f46e5 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+    <main class="flex-grow flex items-center justify-center p-4 z-10 relative">
+        <div class="w-full max-w-md bg-white dark:bg-darkCard rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 p-8 sm:p-10 fade-in">
+            
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary-100 dark:bg-primary-900/40 text-primary-600 mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-bold">Welcome back</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Please enter your details to sign in.</p>
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="admin@school.edu" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 outline-none transition text-sm">
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+                        <button type="button" id="openForgotBtn" class="text-xs text-primary-600 hover:text-primary-700 font-medium hover:underline">Forgot password?</button>
+                    </div>
+                    <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 focus:ring-2 focus:ring-primary-500 outline-none transition text-sm">
+                </div>
+
+                <button type="submit" id="loginBtn" class="w-full bg-primary-600 text-white rounded-lg px-4 py-3 font-bold hover:bg-primary-700 transition shadow-lg shadow-primary-500/30 flex justify-center items-center gap-2">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="text-center mt-6">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Don't have an account? <a href="signup.html" class="text-primary-600 hover:underline font-semibold">Sign up</a></p>
+            </div>
+        </div>
+    </main>
+
+    <div id="recoveryModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div id="recoveryContent" class="bg-white dark:bg-darkCard rounded-2xl shadow-2xl w-full max-w-sm border border-slate-200 dark:border-slate-700 modal-enter overflow-hidden">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
+                <h3 class="text-lg font-bold">Account Recovery</h3>
+                <button id="closeRecoveryBtn" class="text-slate-400 hover:text-red-500 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <form id="recoveryForm" class="p-6 space-y-4">
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-2">Verify your identity using your Date of Birth to recover your account access.</p>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Registered Email</label>
+                    <input type="email" id="recovEmail" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Date of Birth</label>
+                    <input type="date" id="recovDob" required class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary-500 text-slate-600 dark:text-slate-300">
+                </div>
+                <button type="submit" class="w-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg px-4 py-2.5 font-semibold hover:bg-slate-800 transition mt-2">
+                    Verify Identity
+                </button>
+            </form>
+
+            <div id="recoveryResult" class="p-6 hidden text-center">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h4 class="font-bold text-lg mb-2">Identity Verified</h4>
+                <p class="text-sm text-slate-500 mb-4">Your current password is:</p>
+                <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg font-mono text-lg tracking-wider font-bold text-primary-600 select-all mb-4">
+                    <span id="revealedPassword"></span>
+                </div>
+                <button type="button" id="backToLoginBtn" class="text-sm font-semibold text-primary-600 hover:underline">Back to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3"></div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
